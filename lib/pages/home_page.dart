@@ -19,6 +19,8 @@ class _MyHomePageState extends State<MyHomePage> {
   //   });
   // }
 
+  bool isLiked = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -52,8 +54,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               backgroundColor: Color.fromARGB(255, 7, 238, 76),
                               child: CircleAvatar(
                                 radius: 28,
-                                backgroundImage: NetworkImage(
-                                  'https://via.placeholder.com/150/FF5733/FFFFFF?text=Story',
+                                backgroundImage: AssetImage(
+                                  'assets/image.png', // Replace with your image
                                 ),
                               ),
                             ),
@@ -80,8 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       ListTile(
                         leading: const CircleAvatar(
                           radius: 20,
-                          backgroundImage: NetworkImage(
-                            'https://via.placeholder.com/150/FF5733/FFFFFF?text=Story',
+                          backgroundImage: AssetImage(
+                            'assets/image.png', 
                           ),
                         ),
                         title: Text('User ${index + 1}'),
@@ -91,8 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           onPressed: () {},
                         ),
                       ),
-                      Image.network(
-                        'https://via.placeholder.com/150/FF5733/FFFFFF?text=Story',
+                      Image.asset(
+                        'assets/image.png',
                         height: 200,
                         width: double.infinity,
                         fit: BoxFit.cover,
@@ -100,8 +102,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       Row(
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.favorite_border),
-                            onPressed: () {},
+                            icon: Icon(
+                              isLiked ? Icons.favorite : Icons.favorite_border,
+                              color : isLiked ? Colors.red : Colors.black,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isLiked = !isLiked;
+                              });
+                            },
                           ),
                           IconButton(
                             icon: const Icon(Icons.comment),

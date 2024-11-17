@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:instagram/pages/home_page.dart';
 import 'package:instagram/pages/search_page.dart';
-import 'package:instagram/pages/add_page.dart';
+import 'package:instagram/pages/explore_page.dart';
 import 'package:instagram/pages/favorites_page.dart';
 import 'package:instagram/pages/profile_page.dart';
 
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const MyHomePage(title: 'Home'),
         '/home': (context) => const MyHomePage(title: 'Home'),
         '/search': (context) => const SearchPage(),
-        '/add': (context) => const AddPage(),
+        '/add': (context) => ExplorePage(),
         '/favorites': (context) => const FavoritesPage(),
         '/profile': (context) => const ProfilePage(),
       },
