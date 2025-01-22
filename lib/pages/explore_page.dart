@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram/instagram_footer.dart';
 
 class ExplorePage extends StatelessWidget {
     ExplorePage({super.key});
@@ -53,6 +54,7 @@ class ExplorePage extends StatelessWidget {
           );
         },
       ),
+      bottomNavigationBar: const InstagramFooter(),
     );
   }
 }
