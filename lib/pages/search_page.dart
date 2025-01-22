@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram/instagram_footer.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -12,6 +13,7 @@ class SearchPage extends StatelessWidget {
       body: const Center(
         child: Text('Search Page'),
       ),
+      bottomNavigationBar: const InstagramFooter(),
     );
   }
 }
