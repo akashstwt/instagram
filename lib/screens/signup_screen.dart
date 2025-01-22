@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:instagram/pages/home_page.dart';
 import 'package:instagram/screens/login_screen.dart';
 import 'package:instagram/services/auth_service.dart';
-import 'package:instagram/screens/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -28,35 +29,41 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void signUpUser() async {
-    setState(() {
-      _isLoading = true;
-    });
+  setState(() {
+    _isLoading = true;
+  });
 
-    String res = await _authService.signUpUser(
-      email: _emailController.text,
-      password: _passwordController.text,
-      username: _usernameController.text,
-      bio: _bioController.text,
+  String res = await _authService.signUpUser(
+    email: _emailController.text,
+    password: _passwordController.text,
+    username: _usernameController.text,
+    bio: _bioController.text,
+  );
+
+  setState(() {
+    _isLoading = false;
+  });
+
+  if (res == "success") {
+    // Save login status
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', true);
+
+    // Navigate to HomePage
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const MyHomePage(title: 'Home'),
+      ),
     );
-
-    setState(() {
-      _isLoading = false;
-    });
-
-    if (res == "success") {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(res),
-        ),
-      );
-    }
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(res),
+      ),
+    );
   }
+}
+
 
   @override
   Widget build(BuildContext context) {

@@ -61,7 +61,7 @@ class ExplorePage extends StatelessWidget {
 class PostDetailPage extends StatelessWidget {
   final String imagePath;
 
-  const PostDetailPage({required this.imagePath});
+  const PostDetailPage({super.key, required this.imagePath});
   
   @override
   Widget build(BuildContext context) {
