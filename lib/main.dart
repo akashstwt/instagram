@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:instagram/pages/home_page.dart';
 import 'package:instagram/screens/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import 'package:instagram/providers/user_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,34 +25,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: checkLoginStatus(),
-      builder: (context, snapshot) {
-        // Show a loading screen while waiting for the result
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const MaterialApp(
-            home: Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          );
-        }
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Instagram Clone',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: FutureBuilder(
+          future: checkLoginStatus(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
 
-        // If logged in, go to HomePage; otherwise, go to LoginScreen
-        final bool isLoggedIn = snapshot.data ?? false;
-        return MaterialApp(
-          title: 'Instagram Clone',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
-          home: isLoggedIn
-              ? const MyHomePage(title: 'Home')
-              : const LoginScreen(),
-        );
-      },
+            final bool isLoggedIn = snapshot.data ?? false;
+            return isLoggedIn ? const MyHomePage(title: 'Home') : const LoginScreen();
+          },
+        ),
+      ),
     );
   }
 }
