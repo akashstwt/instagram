@@ -72,6 +72,7 @@ class ProfilePageState extends State<ProfilePage> {
         return Scaffold(
           appBar: AppBar(
             title: Text(user?.username ?? 'Profile'),
+            automaticallyImplyLeading: false,
             centerTitle: true,
             actions: [
               IconButton(
