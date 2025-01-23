@@ -9,6 +9,7 @@ class FavoritesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Search'),
+        automaticallyImplyLeading: false,
       ),
       body: const Center(
         child: Text('Search Page'),
