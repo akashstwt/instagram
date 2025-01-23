@@ -70,6 +70,7 @@ class PostDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Post Details'),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Column(
