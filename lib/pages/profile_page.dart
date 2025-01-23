@@ -16,6 +16,7 @@ class ProfilePage extends StatefulWidget {
 class ProfilePageState extends State<ProfilePage> {
   String selectedTab = 'Posts';
   final AuthService _authService = AuthService();
+  bool _isLoggingOut = false;
 
   @override
   void initState() {
@@ -28,6 +29,28 @@ class ProfilePageState extends State<ProfilePage> {
   }
 
   void _handleLogout() async {
+    setState(() {
+      _isLoggingOut = true; // Start showing progress indicator
+    });
+
+    // Show Circular Progress Dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return const AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 20),
+              Text('Logging out...'),
+            ],
+          ),
+        );
+      },
+    );
+
     await _authService.signOut();
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLoggedIn', false);
@@ -53,7 +76,7 @@ class ProfilePageState extends State<ProfilePage> {
             actions: [
               IconButton(
                 icon: const Icon(Icons.logout),
-                onPressed: _handleLogout,
+                onPressed: _isLoggingOut ? null : _handleLogout,
               ),
             ],
           ),

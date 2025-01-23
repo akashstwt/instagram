@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -36,8 +37,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: FutureBuilder(
-          future: checkLoginStatus(),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Scaffold(
@@ -46,9 +47,15 @@ class MyApp extends StatelessWidget {
                 ),
               );
             }
+            if (snapshot.data != null) {
+              return const MyHomePage(title: '');
+            }
+            return const LoginScreen();
 
-            final bool isLoggedIn = snapshot.data ?? false;
-            return isLoggedIn ? const MyHomePage(title: 'Home') : const LoginScreen();
+            // final bool isLoggedIn = snapshot.data ?? false;
+            // return isLoggedIn
+            //     ? const MyHomePage(title: 'Home')
+            //     : const LoginScreen();
           },
         ),
       ),
